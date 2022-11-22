@@ -1,2 +1,8 @@
-.vscode
-.git
+.vscode/
+.git/
+PSPProject.prx
+PSPproject.elf
+gfx.o
+main.o
+PARAM.SFO
+trollskull.ppm

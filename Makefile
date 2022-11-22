@@ -3,9 +3,10 @@ OBJS = main.o \
 gfx.o
 
 CFLAGS = 
-LIBS += -lm -lstdc++
 CXXFLAGS = $(CFLAGS) -std=c++14 -fno-rtti
 ASFLAGS = $(CFLAGS)
+
+LIBS += -lm -lstdc++
 
 #PSP
 BUILD_PRX = 1
