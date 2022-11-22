@@ -24,13 +24,13 @@ int x,y;
 uint32_t* image;
 
 int main() {
-	VGE_init();
-	pspDebugScreenInit();
+    VGE_init();
+    pspDebugScreenInit();
 
     image = VGE_image_init("file.ppm");
 
-	while (true) {
-        VGE_image_draw(x++,y++,trollarr);
+    while (true) {
+        VGE_image_draw(x++,y++,image);
     }
 }
 ```
@@ -44,12 +44,12 @@ Creating a square.
 #include <gfx.h>
 
 int main() {
-	VGE_init();
-	pspDebugScreenInit();
+    VGE_init();
+    pspDebugScreenInit();
 
     VGE_Rect rectangle = {10,10,20,50};
 
-	while (true) {
+    while (true) {
         VGE_draw_rect(rectangle, 0xFFFFFFFF);
     }
 }
