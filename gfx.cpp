@@ -12,7 +12,7 @@
 uint32_t* draw_buffer;
 uint32_t* disp_buffer;
 
-class VE2D_Rect {
+class VGE_Rect {
     public:
         int x;
         int y;
@@ -20,7 +20,7 @@ class VE2D_Rect {
         int h;
 };
 
-class VE2D_Circle {
+class VGE_Circle {
     public:
         int x;
         int y;
@@ -33,20 +33,20 @@ class Vector2D{
 		float y;
 };
 
-void VE2D_init(){
+void VGE_init(){
     draw_buffer = static_cast<uint32_t*>(sceGeEdramGetAddr());
     //disp_buffer = (uint32_t*)sceGeEdramGetAddr() + (272 * 512 * 4);
     sceDisplaySetMode(0,512,272);
     sceDisplaySetFrameBuf(disp_buffer, 512, PSP_DISPLAY_PIXEL_FORMAT_8888, 0);
 }
 
-void VE2D_clear(uint32_t color){
+void VGE_clear(uint32_t color){
     for(int i = 0; i<512 *272; i++){
         draw_buffer[i] = color;
     }
 }
 
-void VE2D_swap_buffers(){
+void VGE_swap_buffers(){
     uint32_t* temp = disp_buffer;
     disp_buffer = draw_buffer;
     draw_buffer = temp;
@@ -55,7 +55,7 @@ void VE2D_swap_buffers(){
     sceDisplaySetFrameBuf(disp_buffer, 512, PSP_DISPLAY_PIXEL_FORMAT_8888, PSP_DISPLAY_SETBUF_IMMEDIATE);
 }
 
-void VE2D_set_pixel(int x, int y, uint32_t color){
+void VGE_set_pixel(int x, int y, uint32_t color){
     if(x > 512){
         return;
     }
@@ -67,31 +67,31 @@ void VE2D_set_pixel(int x, int y, uint32_t color){
     draw_buffer[x + (y * 512)] = color;
 }
 
-void VE2D_draw_rect(VE2D_Rect rectangle, uint32_t color){
+void VGE_draw_rect(VGE_Rect rectangle, uint32_t color){
     for (int i = 0; i <= rectangle.h; i++) {
-        VE2D_set_pixel(rectangle.x + rectangle.w, rectangle.y + 1, color);
-        VE2D_set_pixel(rectangle.x, rectangle.y++ + 1, color);
+        VGE_set_pixel(rectangle.x + rectangle.w, rectangle.y + 1, color);
+        VGE_set_pixel(rectangle.x, rectangle.y++ + 1, color);
     }
     for (int i = 0; i <= rectangle.w; i++) {
-        VE2D_set_pixel(rectangle.x, rectangle.y - rectangle.h, color);
-        VE2D_set_pixel(rectangle.x++, rectangle.y, color);
+        VGE_set_pixel(rectangle.x, rectangle.y - rectangle.h, color);
+        VGE_set_pixel(rectangle.x++, rectangle.y, color);
     }
 }
 
-void VE2D_fill_rect(VE2D_Rect rectangle, uint32_t color){
+void VGE_fill_rect(VGE_Rect rectangle, uint32_t color){
     for (int i = 0; i <= rectangle.h; i++) {
         int localRectX = rectangle.x;
         rectangle.y++;
         for (int i = 0; i <= rectangle.w; i++) {
-            VE2D_set_pixel(localRectX++, rectangle.y, color);
+            VGE_set_pixel(localRectX++, rectangle.y, color);
         }
     }
 }
 
-void VE2D_draw_circle(VE2D_Circle circle, uint32_t color) {
+void VGE_draw_circle(VGE_Circle circle, uint32_t color) {
     for (int i = -circle.r; i <= circle.r; i++) {
-        VE2D_set_pixel(i + circle.x + circle.r, sqrt(pow(circle.r, 2) - pow(i, 2)) + circle.y + circle.r , color);
-        VE2D_set_pixel(i + circle.x + circle.r, -sqrt(pow(circle.r, 2) - pow(i, 2)) + circle.y + circle.r, color);
+        VGE_set_pixel(i + circle.x + circle.r, sqrt(pow(circle.r, 2) - pow(i, 2)) + circle.y + circle.r , color);
+        VGE_set_pixel(i + circle.x + circle.r, -sqrt(pow(circle.r, 2) - pow(i, 2)) + circle.y + circle.r, color);
     }
 }
 
@@ -100,7 +100,7 @@ int hexcolor(int r, int g, int b)
     return (r<<16) | (g<<8) | b;
 }
 
-uint32_t* VE2D_image_init(char* filename){
+uint32_t* VGE_image_init(char* filename){
     std::ifstream image(filename);
     std::string str;
     uint32_t *pixelarray = new uint32_t[5000];
@@ -124,7 +124,7 @@ uint32_t* VE2D_image_init(char* filename){
     return pixelarray;
 }
 
-void VE2D_image_draw(int x, int y, uint32_t* pixelarray){
+void VGE_image_draw(int x, int y, uint32_t* pixelarray){
     //image drawing magic
     int width = 48;
     int height = 71;
@@ -142,12 +142,12 @@ void VE2D_image_draw(int x, int y, uint32_t* pixelarray){
         }
         d++;
 
-        VE2D_set_pixel(d,l,pixelarray[i]);
+        VGE_set_pixel(d,l,pixelarray[i]);
     }
     i = 0;
 }
 
-void VE2D_draw_line(float x0, float y0, float x1, float y1, uint32_t color){
+void VGE_draw_line(float x0, float y0, float x1, float y1, uint32_t color){
 
     float x{x1 - x0}, y{y1 - y0};
     const float max{std::max(std::fabs(x), std::fabs(y))};
@@ -155,12 +155,12 @@ void VE2D_draw_line(float x0, float y0, float x1, float y1, uint32_t color){
     y /= max;
     for (float n{0}; n < max; ++n)
     {
-        VE2D_set_pixel(x0,y0,color);
+        VGE_set_pixel(x0,y0,color);
         x0 += x; y0 += y;
     }
 }
 
-void VE2D_fill_triangle(Vector2D v1, Vector2D v2, Vector2D v3, uint32_t color){
+void VGE_fill_triangle(Vector2D v1, Vector2D v2, Vector2D v3, uint32_t color){
 
     for(int i = 0; i < 40; i++){
         if(v1.x < 0){
@@ -189,9 +189,9 @@ void VE2D_fill_triangle(Vector2D v1, Vector2D v2, Vector2D v3, uint32_t color){
             v3.y++;
         }else{ v3.y--; }
 
-        VE2D_draw_line(v1.x, v1.y, v2.x, v2.y,color);
-        VE2D_draw_line(v2.x, v2.y, v3.x, v3.y,color);
-        VE2D_draw_line(v1.x, v1.y, v3.x, v3.y,color);
+        VGE_draw_line(v1.x, v1.y, v2.x, v2.y,color);
+        VGE_draw_line(v2.x, v2.y, v3.x, v3.y,color);
+        VGE_draw_line(v1.x, v1.y, v3.x, v3.y,color);
     }
     
 }

@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <math.h>
 
-class VE2D_Rect {
+class VGE_Rect {
     public:
         int x;
         int y;
@@ -9,7 +9,7 @@ class VE2D_Rect {
         int h;
 };
 
-class VE2D_Circle {
+class VGE_Circle {
     public:
         int x;
         int y;
@@ -22,14 +22,14 @@ class Vector2D{
 		float y;
 };
 
-void VE2D_init();
-void VE2D_clear(uint32_t color);
-void VE2D_swap_buffers();
-void VE2D_draw_rect(VE2D_Rect rectangle, uint32_t color);
-void VE2D_set_pixel(int x, int y, uint32_t color);
-void VE2D_fill_rect(VE2D_Rect rectangle, uint32_t color);
-void VE2D_draw_circle(VE2D_Circle circle, uint32_t color);
-void VE2D_image_draw(int x, int y, uint32_t * pixelarray);
-void VE2D_draw_line(float x, float y, float x1, float y1, uint32_t color);
-void VE2D_fill_triangle(Vector2D v1, Vector2D v2, Vector2D v3, uint32_t color);
-uint32_t * VE2D_image_init(char* filename);
+void VGE_init();
+void VGE_clear(uint32_t color);
+void VGE_swap_buffers();
+void VGE_draw_rect(VGE_Rect rectangle, uint32_t color);
+void VGE_set_pixel(int x, int y, uint32_t color);
+void VGE_fill_rect(VGE_Rect rectangle, uint32_t color);
+void VGE_draw_circle(VGE_Circle circle, uint32_t color);
+void VGE_image_draw(int x, int y, uint32_t * pixelarray);
+void VGE_draw_line(float x, float y, float x1, float y1, uint32_t color);
+void VGE_fill_triangle(Vector2D v1, Vector2D v2, Vector2D v3, uint32_t color);
+uint32_t * VGE_image_init(char* filename);
